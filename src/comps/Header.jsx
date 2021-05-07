@@ -7,7 +7,7 @@ import { useStateValue } from "../store/StateProvider";
 
 //
 const Header = () => {
-  const [{ basket }] = useStateValue();
+  const [{ basket,user }] = useStateValue();
 
   //
   return (
@@ -31,7 +31,7 @@ const Header = () => {
         <Link to="/login">
           <div className="header_option">
             <span className="header_option_1">Hello</span>
-            <span className="header_option_2">Sign In</span>
+            <span className="header_option_2">{user? "Sign Out":"Sign In"}</span>
           </div>
         </Link>
         <div className="header_option">
