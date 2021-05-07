@@ -11,6 +11,10 @@ const Login = () => {
 
   const signIn = (e) => {
     e.preventDefault();
+    auth.signInWithEmailAndPassword( email, password)
+    .then(()=>{
+      history.push('/');
+    });
   };
 
   const register = (e) => {
@@ -41,12 +45,13 @@ const Login = () => {
 
         <form>
           <h5>Email</h5>
-          <input type="email" onChange={(e) => setEmail(e.target.value)} />
+          <input type="email" onChange={(e) => setEmail(e.target.value)} required/>
 
           <h5>Password</h5>
           <input
             type="password"
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
           <br />
           <button className="signIn_button" type="submit" onClick={signIn}>
