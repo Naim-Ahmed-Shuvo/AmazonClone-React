@@ -10,7 +10,7 @@ import CheckoutProduct from "./CheckoutProduct";
 
 //
 const Payment = () => {
-  const [{ user, basket }] = useStateValue();
+  const [{ user, basket }, dispatch] = useStateValue();
   const [error, setError] = useState(null);
   const [disabled, setDisabled] = useState(true);
   const [processing, setProcessing] = useState(false);
@@ -41,22 +41,34 @@ const Payment = () => {
   const handleSubmit = async (event) => {
     //
     event.preventDefault();
-    
+
     setProcessing(true);
 
     //
-    const payload = stripe
+    const payload = await stripe
       .confirmCardPayment(clientSecret, {
         payment_method: {
           card: elements.getElement(CardElement),
         },
       })
-      .then(({paymentIntent}) => {
-        setSucceeded(true);
-        setError(null);
-        setProcessing(false);
+      .then(({ paymentIntent }) => {
+        console.log("paymentIntent: " + paymentIntent);
+        // setSucceeded(true);
+        // setError(null);
+        // setProcessing(false);
 
-        history.replace("/order");
+        // db.collection('users').doc(user?.uid).collection('orders').doc(paymentIntent?.id)
+        // .set({
+        //   basket: basket,
+        //   amount: paymentIntent?.amount,
+        //   created: paymentIntent?.created
+        // })
+
+        // dispatch({
+        //    type: "EMPTY_BASKET",
+        // })
+
+        // history.replace("/orders");
       });
   };
 
@@ -112,7 +124,7 @@ const Payment = () => {
             <h2>Payment Method</h2>
           </div>
           <div className="payment_details">
-            <form  onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit}>
               <CardElement onChange={handleChange} />
 
               <div className="paymentprice_container">
@@ -128,7 +140,10 @@ const Payment = () => {
                   prefix={"$"}
                   displayType="text"
                 />
-                <button disabled={processing || disabled || succeeded} type="submit">
+                <button
+                  disabled={processing || disabled || succeeded}
+                  type="submit"
+                >
                   <span>{processing ? <p>Processing</p> : "Buy Now"}</span>
                 </button>
               </div>

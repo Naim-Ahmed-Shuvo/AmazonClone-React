@@ -10,6 +10,7 @@ import Payment from "./comps/Payment";
 import { auth } from "./fireBase";
 import { useStateValue } from "./store/StateProvider";
 import {Elements} from '@stripe/react-stripe-js';
+import Orders from "./comps/Orders";
 
 //
 const stripePromise = loadStripe(
@@ -64,6 +65,10 @@ function App() {
                <Payment />
             </Elements>
             
+          </Route>
+          <Route exact path="/orders">
+          <Header />
+            <Orders/>
           </Route>
         </Switch>
       </Router>
